@@ -1,36 +1,55 @@
 #include <iostream>
-using namespace std;
+#include <random>
+#include <string>
+#include <sstream>
 
 int main(){
-    cout<<"-- Welcome To My Game --\n";
-    cout<<"RULES -\n#1) You Have to Guess a Number Between 1-100.\n#2) You Will Get 7 Chances/guesses.\n#3) After Every Guess You Will Get a Feedback Indicating Whether You Guessed Too High Or Too Low.\n#4) Good Luck! :D\n\n";
-    int secret = 34;
-    int ui;
-    bool exit_number = 0;
-    
-    for(int g = 1; g < 8; g++){
-        cout<<"------------------\nGuess #"<<g<<"-\nEnter Your Guess: \n";
-        cin>>ui;
-        cout<<"\n";
-        
-        if(ui == secret){
-            exit_number = 1;
+    std::cout << R"(
+-- Welcome To My Game --
+RULES
+    #1) You Have to Guess a Number Between 1-100.
+    #2) You Will Get 7 Chances/guesses.
+    #3) After Every Guess You Will Get a Feedback Indicating Whether You Guessed Too High Or Too Low.
+    #4) Good Luck! :D
+
+)";
+
+    std::random_device          randomDevice;
+    std::default_random_engine  randomEngine(randomDevice());
+    std::uniform_int_distribution<int> randomNumberGenerator(1, 100);
+
+    int secret = randomNumberGenerator(randomEngine);
+    std::string exitMessage = "Your 7 Guesses are over, better luck next time! The secret was: " + std::to_string(secret);
+
+    for(int g = 1; g < 8; g++) {
+        std::cout << "------------------\n"
+            << "Guess #" << g << "-\n"
+            << "Enter Your Guess: ";
+
+        int userInput;
+        do {
+            std::string line;
+            std::getline(std::cin, line);
+            std::stringstream lineStream(line);
+            if (lineStream >> userInput && userInput > 0 && userInput <= 100) {
+                break;
+            }
+            std::cout << "Invalid user Input. Please try again.\n";
+        }
+        while(true);
+
+        if(userInput == secret){
+            exitMessage = "Congratulations You Won!!!";
             break;
         }
-        
-        else if(ui<secret){
-            cout<<"You Guessed Too Low, Try Entering a Higher Number!\n\n";
+        else if (userInput < secret) {
+            std::cout << "You Guessed Too Low, Try Entering a Higher Number!\n\n";
         }
-        
-        else{
-            cout<<"You Guessed Too High, Try Entering a Lower Number!\n\n";
+        else {
+            std::cout << "You Guessed Too High, Try Entering a Lower Number!\n\n";
         }
     }
-    if(exit_number == 0){
-        cout<<"Your 7 Guesses are over, better luck next time!";}
-    else{cout<<"Congratulations You Won!!!\nThe Secret Number Was "<<secret;}
-        
-    
+    std::cout << exitMessage << "\n\n";
     return 0;
 }
 
