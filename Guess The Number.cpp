@@ -17,7 +17,13 @@ int main(){
             exit_number = 1;
             break;
         }
-        
+        ddvfesgtrthtyg
+            
+            ffrgfg
+            
+            
+            
+            tff
         else if(ui<secret){
             cout<<"You Guessed Too Low, Try Entering a Higher Number!\n\n";
         }
