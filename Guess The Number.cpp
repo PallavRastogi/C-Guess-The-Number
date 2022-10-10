@@ -44,5 +44,5 @@ int main(){
 // can add random number functionality
 // same number each time prog is run
 // compile to exe by "g++ <filename.cpp>"
-//end of file//
+//end of file// 
 //
